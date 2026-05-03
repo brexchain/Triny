@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Music, Pause, Download, ChartBar, TreePine, Camera, Quote, MessageCircle, Facebook, Settings, Plus, Trash2, Edit3, X, Save, Play } from 'lucide-react';
+import { Music, Pause, Download, ChartBar, TreePine, Camera, Quote, MessageCircle, Facebook, Settings, Plus, Trash2, Edit3, X, Save, Play, ExternalLink } from 'lucide-react';
 import html2canvas from 'html2canvas';
 
 import { PUPPIES, TIMELINE_EVENTS, WHATSAPP_CHATS, GALLERY_IMAGES } from './constants';

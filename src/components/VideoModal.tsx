@@ -11,21 +11,17 @@ interface VideoModalProps {
 function VideoPlayerWrapper({ url, isReady, setIsReady }: { url: string, isReady: boolean, setIsReady: (val: boolean) => void }) {
   const isPresent = useIsPresent();
   
+  const Player = ReactPlayer as any;
+  
   return (
-    <ReactPlayer
-      url={url}
+    <Player
+      url={url as string}
       width="100%"
       height="100%"
       controls
       playing={isReady && isPresent}
       onReady={() => setIsReady(true)}
-      onError={(e) => console.error("ReactPlayer Error:", e)}
-      config={{
-        facebook: {
-          appId: '', // You can add a FB app ID here if needed
-          version: 'v12.0'
-        }
-      }}
+      onError={(e: any) => console.error("ReactPlayer Error:", e)}
     />
   );
 }
