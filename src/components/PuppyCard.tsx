@@ -29,7 +29,7 @@ export function PuppyCard({ puppy, onVideoClick }: PuppyCardProps) {
         <p><strong>Erkennung:</strong> {puppy.merkmale}</p>
         <p><strong>Besitzer:</strong> {puppy.besitzer}</p>
         
-        <div className="bg-[rgba(45,90,39,0.05)] dark:bg-[rgba(244,208,63,0.05)] p-3 rounded-sm mt-4 font-mono text-xs space-y-1">
+        <div className="bg-accent/5 dark:bg-gold/5 p-3 rounded-sm mt-4 font-mono text-xs space-y-1">
           {puppy.stats.geburtsgewicht && (
             <p>Geburt: <span className="text-accent dark:text-gold">{puppy.stats.geburtsgewicht}</span></p>
           )}
@@ -41,7 +41,7 @@ export function PuppyCard({ puppy, onVideoClick }: PuppyCardProps) {
       </div>
       
       {puppy.quote && (
-        <p className="mt-4 italic text-sm opacity-60 text-right">
+        <p className="mt-4 italic text-sm opacity-85 text-right">
           "{puppy.quote}"
         </p>
       )}

@@ -10,7 +10,11 @@ interface Enkel {
   family: string;
 }
 
-export function FamilyTree() {
+interface FamilyTreeProps {
+  isAdmin: boolean;
+}
+
+export function FamilyTree({ isAdmin }: FamilyTreeProps) {
   const [enkel, setEnkel] = useState<Enkel[]>([]);
 
   const addEnkel = () => {
@@ -33,65 +37,76 @@ export function FamilyTree() {
   };
 
   return (
-    <div className="py-12 px-4 bg-[rgba(255,255,255,0.4)] dark:bg-[#0f140f] shadow-inner rounded-xl border border-[rgba(45,90,39,0.13)]">
-      <div className="text-center mb-12">
-        <div className="inline-block border-3 border-accent dark:border-gold p-6 rounded-lg transform -rotate-1 bg-white dark:bg-[#1a241a] shadow-lg">
-          <p className="font-bold text-lg mb-1 uppercase tracking-widest opacity-60">Eltern</p>
-          <p className="text-2xl font-display">Coffee (Papa) & Trinity van Bella (Mama)</p>
+    <div className="py-12 px-4 bg-white dark:bg-[#0a0f0a] shadow-2xl rounded-2xl border-2 border-accent/10 dark:border-gold/10">
+      <div className="text-center mb-16">
+        <div className="inline-block border-4 border-accent dark:border-gold p-8 rounded-2xl transform -rotate-1 bg-white dark:bg-[#1a241a] shadow-xl">
+          <p className="font-bold text-sm mb-2 uppercase tracking-[0.3em] text-accent/60 dark:text-gold/60">Die Ahnentafel</p>
+          <p className="text-4xl font-display text-accent dark:text-gold">Coffee (Papa) & <br className="sm:hidden" /> Trinity van Bella (Mama)</p>
         </div>
-        <div className="text-4xl text-accent dark:text-gold my-4 animate-bounce">↓</div>
+        <div className="text-5xl text-accent/30 dark:text-gold/30 my-6 animate-bounce">↓</div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-6 mb-20 px-8">
+      <div className="flex flex-wrap justify-center gap-8 mb-24 px-4 sm:px-8">
         {PUPPIES.map((p, i) => (
           <motion.div
             key={p.id}
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
             transition={{ delay: i * 0.05 }}
-            className="bg-white dark:bg-[#1a241a] border-l-4 border-accent dark:border-gold p-4 px-6 rounded shadow-lg min-w-[200px] text-left transform hover:rotate-0 transition-transform"
-            style={{ rotate: `${Math.random() * 4 - 2}deg` }}
+            className="bg-white dark:bg-[#151a15] border-l-8 border-accent dark:border-gold p-6 rounded-xl shadow-[0_10px_40px_-15px_rgba(4,131,4,0.3)] dark:shadow-[0_10px_40px_-15px_rgba(212,175,55,0.1)] min-w-[240px] text-left transform transition-all hover:-translate-y-2"
           >
-            <p className="font-bold text-accent dark:text-gold text-lg">#{i+1} {p.name}</p>
-            <p className="text-xs font-hand opacity-60 italic">{p.gender}</p>
-            <p className="text-xs mt-2 font-mono whitespace-nowrap">{p.stats.geburtsgewicht} → {p.stats.wochen12}</p>
+            <p className="font-bold text-accent dark:text-gold text-2xl mb-1">#{i+1} {p.name}</p>
+            <p className="text-lg font-hand text-ink/70 dark:text-gold/70 italic underline decoration-accent/20 dark:decoration-gold/20">{p.gender}</p>
+            <div className="mt-4 p-3 bg-paper/50 dark:bg-black/20 rounded-lg border border-accent/10 dark:border-gold/10">
+              <p className="text-xs font-mono tracking-tighter text-ink/80 dark:text-gold/90">
+                <span className="opacity-50">START:</span> {p.stats.geburtsgewicht} <br />
+                <span className="opacity-50">12 WO:</span> {p.stats.wochen12}
+              </p>
+            </div>
           </motion.div>
         ))}
       </div>
 
-      <div className="text-center mb-8">
-        <div className="text-4xl text-accent dark:text-gold mb-4">↓</div>
-        <p className="font-display text-2xl opacity-50 italic">Hier könnten deine Enkel stehen...</p>
-        <button
-          onClick={addEnkel}
-          className="mt-6 inline-flex items-center gap-2 bg-accent dark:bg-gold text-[#f0f7f0] dark:text-neutral-900 px-6 py-3 rounded-full font-display text-xl shadow-lg hover:scale-105 transition-transform"
-        >
-          <Plus size={24} /> Enkel hinzufügen
-        </button>
+      <div className="text-center mb-12 py-12 border-t-2 border-dashed border-accent/10 dark:border-gold/10">
+        <div className="text-4xl text-accent/20 dark:text-gold/20 mb-6">↓</div>
+        <p className="font-display text-4xl text-accent dark:text-gold italic mb-8">Nächste Generation ...</p>
+        {isAdmin && (
+          <button
+            onClick={addEnkel}
+            className="group relative inline-flex items-center gap-3 bg-accent dark:bg-gold text-paper dark:text-neutral-900 px-10 py-5 rounded-full font-display text-3xl shadow-[0_20px_50px_-10px_rgba(4,131,4,0.4)] transition-all hover:scale-105 hover:shadow-accent/40 active:scale-95"
+          >
+            <div className="absolute inset-0 bg-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Plus size={32} /> Enkel eintragen
+          </button>
+        )}
       </div>
 
-      <div className="flex flex-wrap justify-center gap-6">
+      <div className="flex flex-wrap justify-center gap-8 mb-12">
         <AnimatePresence>
           {enkel.map((e) => (
             <motion.div
               key={e.id}
-              initial={{ opacity: 0, y: 20, scale: 0.8 }}
+              initial={{ opacity: 0, y: 30, scale: 0.8 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.5 }}
-              className="bg-[rgba(45,90,39,0.05)] dark:bg-[rgba(244,208,63,0.1)] border-2 border-dashed border-accent dark:border-gold p-5 rounded-xl shadow-sm min-w-[150px] relative group"
+              className="bg-white dark:bg-[#1a241a] border-2 border-accent dark:border-gold p-8 rounded-3xl shadow-xl min-w-[200px] relative group overflow-hidden"
             >
-              <button
-                onClick={() => removeEnkel(e.id)}
-                className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                <Trash2 size={14} />
-              </button>
-              <div className="text-3xl mb-2 text-center">🐾</div>
-              <p className="font-bold text-center text-lg">{e.name}</p>
-              <div className="mt-2 text-xs border-t border-[rgba(45,90,39,0.15)] pt-2 space-y-1">
-                <p><span className="opacity-60">Kind von:</span> {e.parent}</p>
-                <p><span className="opacity-60">Familie:</span> {e.family}</p>
+              {isAdmin && (
+                <button
+                  onClick={() => removeEnkel(e.id)}
+                  className="absolute top-4 right-4 bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
+                >
+                  <Trash2 size={16} />
+                </button>
+              )}
+              <div className="text-4xl mb-4 text-center">🐾</div>
+              <p className="font-bold text-center text-2xl text-accent dark:text-gold font-display">{e.name}</p>
+              <div className="mt-6 text-sm border-t border-dashed border-accent/20 dark:border-gold/20 pt-4 space-y-2 font-hand">
+                <p className="flex justify-between"><span className="opacity-50">Kind von:</span> <span className="font-bold">{e.parent}</span></p>
+                <p className="flex justify-between"><span className="opacity-50">Familie:</span> <span className="italic">{e.family}</span></p>
               </div>
+              <div className="absolute top-0 left-0 w-1 h-full bg-accent dark:bg-gold opacity-10" />
             </motion.div>
           ))}
         </AnimatePresence>

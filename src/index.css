@@ -5,11 +5,12 @@
   --font-hand: "Kalam", cursive;
   --font-display: "Caveat", cursive;
 
-  --color-paper: #f0f7f0;
-  --color-ink: #1a2b1a;
-  --color-accent: #2d5a27;
-  --color-shadow: rgba(26, 43, 26, 0.15);
-  --color-gold: #f4d03f;
+  --color-paper: #f2f7f2;
+  --color-ink: #2a3a2a;
+  --color-accent: #048304;
+  --color-shadow: rgba(4, 131, 4, 0.12);
+  --color-gold: #fde68a; /* More vibrant gold */
+  --color-gold-muted: rgba(253, 230, 138, 0.85);
 
   /* Hex overrides for html2canvas compatibility */
   --color-neutral-50: #fafafa;
@@ -20,12 +21,15 @@
   --color-neutral-900: #171717;
 }
 
+/* Custom dark variant linked to .dogfather-mode */
+@custom-variant dark (&:where(.dogfather-mode, .dogfather-mode *));
+
 @layer base {
   html {
     scroll-behavior: smooth;
   }
   body {
-    @apply font-hand bg-paper text-ink selection:bg-[rgba(45,90,39,0.2)];
+    @apply font-hand bg-paper text-ink selection:bg-accent/20;
     background-image: radial-gradient(#d1dbd1 0.5px, transparent 0.5px);
     background-size: 24px 24px;
     line-height: 1.6;
@@ -33,9 +37,31 @@
   }
 
   body.dogfather-mode {
-    background-color: var(--color-neutral-900);
+    background-color: #1a0f0a; /* Deep Ebony Brown */
     @apply text-gold;
     background-image: none;
+  }
+
+  /* Global fixes for darkness in Dogfather mode */
+  .dogfather-mode .opacity-90,
+  .dogfather-mode .opacity-80,
+  .dogfather-mode .opacity-70,
+  .dogfather-mode .opacity-60,
+  .dogfather-mode .opacity-50,
+  .dogfather-mode .opacity-40 {
+    color: var(--color-gold-muted);
+    opacity: 1;
+  }
+
+  .dogfather-mode .text-ink,
+  .dogfather-mode .text-accent,
+  .dogfather-mode .text-ink/40,
+  .dogfather-mode .text-ink/60 {
+    color: var(--color-gold);
+  }
+
+  .dogfather-mode .bg-paper/50 {
+    background-color: rgba(42, 26, 20, 0.4); /* Dark brown tint */
   }
 }
 
@@ -45,19 +71,18 @@
 }
 
 .dogfather-mode .polaroid {
-  background-color: var(--color-neutral-800);
-  @apply shadow-[0_4px_30px_rgba(212,175,55,0.2)];
+  background-color: #2a1a14; /* Warm dark brown */
+  @apply shadow-[0_4px_30px_rgba(212,175,55,0.15)];
 }
 
 .paper-card {
-  @apply bg-[#f2fcf2] backdrop-blur-sm border-2 border-dashed border-[rgba(45,90,39,0.15)] p-8 text-center transform shadow-inner rounded-2xl;
-  background-color: rgba(242, 252, 242, 0.8);
+  @apply bg-paper/80 backdrop-blur-sm border-2 border-dashed border-accent/20 p-8 text-center transform shadow-inner rounded-2xl;
   transform: rotate(-0.5deg);
 }
 
 .dogfather-mode .paper-card {
-  @apply border-gold;
-  background-color: rgba(212, 175, 55, 0.1);
+  @apply border-gold/40;
+  background-color: rgba(42, 26, 20, 0.6);
 }
 
 /* Scrollbar styling */
@@ -77,18 +102,18 @@
   width: 8px;
 }
 ::selection {
-  @apply bg-[rgba(45,90,39,0.2)] text-inherit;
+  @apply bg-accent/20 text-inherit;
 }
 
 ::-webkit-scrollbar-track {
   @apply bg-paper;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-[rgba(45,90,39,0.2)] rounded-full;
+  @apply bg-accent/30 rounded-full;
 }
 .dogfather-mode ::-webkit-scrollbar-track {
-  background-color: var(--color-neutral-900);
+  background-color: #1a0f0a;
 }
 .dogfather-mode ::-webkit-scrollbar-thumb {
-  @apply bg-[rgba(212,175,55,0.3)] rounded-full;
+  @apply bg-gold/20 rounded-full;
 }

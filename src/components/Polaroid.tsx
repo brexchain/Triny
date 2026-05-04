@@ -62,12 +62,12 @@ export function Polaroid({ image, caption, quote, author, rotation = 0, link, on
           </a>
         )}
       </div>
-      <div className="pt-8 text-center pb-8">
-        <p className="text-3xl text-ink" style={{ fontFamily: "'Brush Script MT', cursive" }}>{caption}</p>
+      <div className="pt-8 text-center pb-8 px-4">
+        <p className="text-4xl text-ink font-display">{caption}</p>
         {quote && (
-          <div className="mt-4 border-t border-[rgba(45,90,39,0.1)] pt-4 px-8">
-            <p className="italic text-lg text-[rgba(26,43,26,0.6)] font-hand leading-relaxed">"{quote}"</p>
-            {author && <p className="text-sm opacity-40 mt-2 font-hand">— {author}</p>}
+          <div className="mt-6 border-t border-accent/10 dark:border-gold/10 pt-6 px-4">
+            <p className="italic text-xl text-ink font-hand leading-relaxed">"{quote}"</p>
+            {author && <p className="text-base opacity-75 mt-4 font-hand">— {author}</p>}
           </div>
         )}
         {link && !isVideo && (

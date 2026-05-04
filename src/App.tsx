@@ -13,12 +13,21 @@ import { VideoModal } from './components/VideoModal';
 export default function App() {
   const [activeFilters, setActiveFilters] = useState<string[]>(['alle']);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
-  const [isDogfatherMode, setIsDogfatherMode] = useState(false);
+  const [isDogfatherMode, setIsDogfatherMode] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [clickCount, setClickCount] = useState(0);
   const [showQuote, setShowQuote] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+
+  const toggleAdmin = () => {
+    const pass = prompt("Admin Passwort? (Tipp: 'Bella')");
+    if (pass?.toLowerCase() === 'bella') {
+      setIsAdmin(!isAdmin);
+    } else if (pass !== null) {
+      alert("Falsches Passwort!");
+    }
+  };
 
   const sections = [
     { id: 'gallery-section', label: 'Schnappschüsse' },
@@ -248,6 +257,25 @@ export default function App() {
             </a>
           ))}
         </div>
+        <div className="flex items-center gap-2 border-l border-accent/20 pl-4 ml-2">
+          <button
+            onClick={() => setIsDogfatherMode(!isDogfatherMode)}
+            className={`p-1.5 rounded-md transition-all flex items-center gap-1 ${isDogfatherMode ? 'bg-gold text-neutral-900 shadow-inner' : 'text-accent hover:bg-accent/10'}`}
+            title="Theme umschalten"
+          >
+            <div className={`w-3 h-3 rounded-full ${isDogfatherMode ? 'bg-neutral-900' : 'bg-gold border border-accent/20'}`} />
+            <span className="text-[9px] font-bold uppercase tracking-tighter">Theme</span>
+          </button>
+          
+          <button
+            onClick={toggleAdmin}
+            className={`p-1.5 rounded-md transition-all flex items-center gap-1 ${isAdmin ? 'bg-accent text-white shadow-inner' : 'text-accent hover:bg-accent/10'}`}
+            title="Admin Login"
+          >
+            <Settings size={14} className={isAdmin ? "animate-spin-slow" : ""} />
+            <span className="text-[9px] font-bold">ADMIN {isAdmin ? 'AN' : 'AUS'}</span>
+          </button>
+        </div>
       </div>
 
       {/* Scroll to Top */}
@@ -262,7 +290,7 @@ export default function App() {
 
       <div className="max-w-6xl mx-auto px-4 py-16 md:py-24" id="main-content">
         {/* Header */}
-        <header className="flex flex-col md:flex-row justify-between items-end mb-16 border-b-2 border-dashed border-[rgba(45,90,39,0.3)] pb-12 relative font-serif">
+        <header className="flex flex-col md:flex-row justify-between items-end mb-16 border-b-2 border-dashed border-accent/30 pb-12 relative font-serif">
           <div className="text-left w-full md:w-auto">
             <motion.h1
               onClick={handleTitleClick}
@@ -274,7 +302,7 @@ export default function App() {
               Trinity & Coffee
             </motion.h1>
             <div className="flex flex-col md:flex-row gap-4 items-start md:items-center mt-2">
-              <p className="text-xl md:text-2xl opacity-80 italic font-hand">Ein Wurf voller Wunder — Die Geschichte einer Reise</p>
+              <p className="text-xl md:text-2xl opacity-90 italic font-hand">Ein Wurf voller Wunder — Die Geschichte einer Reise</p>
               <div className="flex gap-2">
                 <a 
                   href="https://chat.whatsapp.com/example" 
@@ -296,7 +324,7 @@ export default function App() {
                 </a>
                 <button 
                   onClick={() => setIsAdmin(!isAdmin)}
-                  className={`p-2 rounded-full transition-all shadow-md ${isAdmin ? 'bg-accent text-white scale-110 shadow-[0_0_15px_rgba(45,90,39,0.4)]' : 'bg-white/50 text-gray-400 opacity-40 hover:opacity-100'}`}
+                  className={`p-2 rounded-full transition-all shadow-md ${isAdmin ? 'bg-accent text-white scale-110 shadow-accent/40' : 'bg-white/50 text-gray-400 opacity-40 hover:opacity-100'}`}
                   title="Admin Modus"
                 >
                   <Settings size={18} />
@@ -316,7 +344,7 @@ export default function App() {
           <div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="font-display text-4xl text-accent dark:text-gold">Schnappschüsse</h2>
-              <p className="text-sm italic opacity-60 font-hand">Die schönsten Momente im Querformat</p>
+              <p className="text-sm italic opacity-85 font-hand">Die schönsten Momente im Querformat</p>
             </div>
             <div className="hidden md:flex gap-2">
                <span className="text-xs opacity-40 font-mono italic">← Swipe to explore →</span>
@@ -403,7 +431,7 @@ export default function App() {
           <aside className="md:col-span-3 space-y-8">
             <div className="sticky top-8 space-y-8">
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold border-b border-[rgba(26,43,26,0.15)] pb-2 mb-6 font-display flex items-center justify-between">
+                <h2 className="text-2xl font-bold border-b border-accent/20 pb-2 mb-6 font-display flex items-center justify-between">
                   <span>Die Rasselbande</span>
                   {activeFilters.length > 1 && !activeFilters.includes('alle') && (
                     <button 
@@ -480,7 +508,7 @@ export default function App() {
               <motion.div 
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                className="bg-[rgba(45,90,39,0.05)] border-2 border-dashed border-[rgba(45,90,39,0.15)] p-6 rounded-xl transform -rotate-1"
+                className="bg-accent/5 border-2 border-dashed border-accent/20 p-6 rounded-xl transform -rotate-1"
               >
                 <p className="text-sm italic opacity-80 font-hand">
                   "Geduld zahlt sich aus. 7 Wunder erblicken das Licht."
@@ -521,7 +549,7 @@ export default function App() {
                 <div key={idx} className="relative group">
                   <div className="text-center mb-12">
                     <h2 className="font-display text-5xl text-accent dark:text-gold mb-3">{event.date}</h2>
-                    <h3 className="text-2xl opacity-60 font-hand italic">{event.title}</h3>
+                    <h3 className="text-2xl opacity-85 font-hand italic">{event.title}</h3>
                   </div>
                   <Polaroid 
                     image={event.image}
@@ -545,7 +573,7 @@ export default function App() {
 
             {/* Charts Section */}
             {(activeFilters.includes('alle') || activeFilters.includes('statistik') || activeFilters.includes('meilenstein')) && (
-              <section id="charts-section" className="py-24 border-y-2 border-dashed border-[rgba(45,90,39,0.1)]">
+              <section id="charts-section" className="py-24 border-y-2 border-dashed border-accent/10">
                 <div className="mb-12 text-center">
                   <h2 className="font-display text-5xl text-accent dark:text-gold mb-4">Gewichtskurve</h2>
                   <p className="opacity-60 italic">Die Reise von 2,7kg zu stolzen 74kg</p>
@@ -556,7 +584,7 @@ export default function App() {
 
             {/* Puppy Grid - Horizontal Cards */}
             <section className="py-24" id="puppy-section">
-              <h2 className="text-center font-display text-6xl mb-20 italic underline decoration-[rgba(45,90,39,0.2)] decoration-wavy">Die Besatzung</h2>
+              <h2 className="text-center font-display text-6xl mb-20 italic underline decoration-accent/20 decoration-wavy">Die Besatzung</h2>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {filteredPuppies.map((p) => (
                   <PuppyCard key={p.id} puppy={p} onVideoClick={setActiveVideo} />
@@ -568,14 +596,14 @@ export default function App() {
             {(activeFilters.includes('alle') || activeFilters.includes('trinity')) && (
               <section id="family-tree-section" className="py-24">
                 <h2 className="text-center font-display text-6xl mb-20">Die Trinity-Dynastie</h2>
-                <FamilyTree />
+                <FamilyTree isAdmin={isAdmin} />
               </section>
             )}
           </main>
         </div>
 
         {/* WhatsApp Chat Section */}
-        <section className="py-24 border-t border-[rgba(45,90,39,0.1)]" id="community-section">
+        <section className="py-24 border-t border-accent/10" id="community-section">
           <div className="text-center mb-16">
             <h2 className="font-display text-5xl text-accent dark:text-gold mb-4">Stimmen aus der Community</h2>
             <p className="opacity-60 italic font-hand">Highlights aus der WhatsApp-Gruppe</p>
@@ -602,7 +630,7 @@ export default function App() {
                 key={i}
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                className="bg-[rgba(255,255,255,0.4)] dark:bg-[rgba(15,20,15,0.4)] p-6 rounded-2xl border border-[rgba(45,90,39,0.1)] shadow-sm relative overflow-hidden group"
+                className="bg-white/40 dark:bg-[#0f140f]/40 p-6 rounded-2xl border border-accent/10 shadow-sm relative overflow-hidden group"
               >
                 {isAdmin && (
                   <button 
@@ -612,7 +640,7 @@ export default function App() {
                     <Trash2 size={12} />
                   </button>
                 )}
-                <div className="absolute top-0 left-0 w-1 h-full bg-[rgba(45,90,39,0.2)] group-hover:bg-accent transition-colors" />
+                <div className="absolute top-0 left-0 w-1 h-full bg-accent/20 group-hover:bg-accent transition-colors" />
                 <p className="font-hand text-lg mb-4 text-ink opacity-90">"{chat.message}"</p>
                 <div className="flex justify-between items-center text-xs opacity-50 font-mono">
                   <span>{chat.author}</span>
@@ -654,48 +682,94 @@ export default function App() {
           </motion.div>
         </section>
 
-        {/* Footer */}
-        <footer className="mt-48 pt-12 border-t border-[rgba(45,90,39,0.15)] flex flex-col md:flex-row justify-between items-center text-sm opacity-70 gap-6">
-          <p className="font-hand italic">"Alle 7 gehen ihre eigenen Wege, alle Besitzer werden sich gegenseitig helfen" — C.S.</p>
-          <div className="flex space-x-8 font-display text-lg">
-            <span className="flex items-center gap-1">📸 Album Export</span>
-            <span className="flex items-center gap-1">🌳 Stammbaum</span>
-            <span className="flex items-center gap-1 text-accent dark:text-gold">♪ Chopin aktiv</span>
+        {/* Enhanced Footer with Video Backup Links */}
+        <footer className="mt-48 py-24 border-t border-[rgba(45,90,39,0.15)]" id="footer-section">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16">
+            <div className="space-y-6">
+              <h3 className="font-display text-4xl text-accent dark:text-gold">Videos laden nicht?</h3>
+              <p className="font-hand text-lg opacity-70 leading-relaxed">
+                Manche Browser blockieren Facebook-Videos in der Scrapbook-Ansicht. Hier sind die 5 wichtigsten Momente als direkte Backup-Links:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  { label: "1. Erste Gehversuche", url: "https://fb.watch/Fsmn1DLS4y/" },
+                  { label: "2. Eve's Vorstellung", url: "https://fb.watch/Fsmv1gFxSy/" },
+                  { label: "3. Brownie (Papa Look)", url: "https://fb.watch/FsmJtjrRxZ/" },
+                  { label: "4. Instagram Video", url: "https://www.instagram.com/reel/DTd5NLHCSfB/" },
+                  { label: "5. Facebook Rückblick", url: "https://www.facebook.com/permalink.php?story_fbid=pfbid0wjLsPhLPepnquEKPPDHoeWP4Xc3HPJMfZ8rP59tj8oobamWyBJwpWKrjpwsjCCCil&id=61578709837034" }
+                ].map((link, i) => (
+                  <a
+                    key={i}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-accent/5 dark:bg-accent/10 p-3 rounded-xl border border-accent/10 hover:border-accent hover:bg-accent hover:text-white transition-all text-xs font-bold uppercase tracking-widest text-accent dark:text-gold"
+                  >
+                    <Play size={16} /> {link.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+            
+            <div className="space-y-8 flex flex-col justify-end items-end text-right">
+              <p className="font-display text-3xl max-w-sm italic text-accent dark:text-gold">
+                "Alle 7 gehen ihre eigenen Wege, alle Besitzer werden sich gegenseitig helfen"
+              </p>
+              <p className="text-xl font-hand opacity-60">— Clemens Sparowitz</p>
+              
+              <div className="flex flex-wrap justify-end gap-6 font-display text-xl text-ink/40">
+                <span className="flex items-center gap-2 hover:text-accent cursor-default transition-colors">
+                  <Download size={18} /> Export bereit
+                </span>
+                <span className="flex items-center gap-2 hover:text-accent cursor-default transition-colors">
+                  <TreePine size={18} /> Baum geladen
+                </span>
+                <span className="flex items-center gap-2 text-accent dark:text-gold">
+                  <Music size={18} /> Chopin aktiv
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="pt-8 border-t border-accent/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.2em] opacity-40 font-mono">
+            <p>© 2025-2026 Trinity van Bella Scrapbook</p>
+            <p>Made with ❤️ for the 7 wonders</p>
           </div>
         </footer>
+
+        {/* Action Buttons at bottom of page flow */}
+        <div className="mt-12 flex flex-wrap justify-center gap-6 pb-24">
+          <button
+            onClick={() => setIsMusicPlaying(!isMusicPlaying)}
+            className="flex items-center gap-3 px-6 py-3 rounded-full bg-accent dark:bg-gold text-paper dark:text-neutral-900 shadow-xl hover:scale-105 active:scale-95 transition-all font-display text-xl"
+          >
+            {isMusicPlaying ? <Pause size={24} /> : <Music size={24} />}
+            {isMusicPlaying ? "Musik Pause" : "Musik Abspielen"}
+          </button>
+          
+        <div className="flex gap-4">
+          <button
+            onClick={() => handleExport('charts-section', 'trinity-gewicht-chart')}
+            className="flex items-center gap-2 bg-white dark:bg-neutral-800 text-accent dark:text-gold px-5 py-3 rounded-full border-2 border-accent dark:border-gold shadow-xl hover:bg-accent hover:text-white transition-all text-lg font-display"
+          >
+            <ChartBar size={20} /> Export Chart
+          </button>
+          <button
+            onClick={() => handleExport('family-tree-section', 'trinity-stammbaum')}
+            className="flex items-center gap-2 bg-white dark:bg-neutral-800 text-accent dark:text-gold px-5 py-3 rounded-full border-2 border-accent dark:border-gold shadow-xl hover:bg-accent hover:text-white transition-all text-lg font-display"
+          >
+            <TreePine size={20} /> Export Baum
+          </button>
+          <button
+            onClick={() => handleExport('main-content', 'trinity-scrapbook-page')}
+            className="flex items-center gap-2 bg-white dark:bg-neutral-800 text-accent dark:text-gold px-5 py-3 rounded-full border-2 border-accent dark:border-gold shadow-xl hover:bg-accent hover:text-white transition-all text-lg font-display"
+          >
+            <Camera size={20} /> Export Seite
+          </button>
+        </div>
+        </div>
       </div>
 
-
-      {/* Floating Controls */}
-      <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-[200]">
-        <button
-          onClick={() => setIsMusicPlaying(!isMusicPlaying)}
-          className="w-14 h-14 rounded-full bg-accent dark:bg-gold text-paper dark:text-neutral-900 flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all"
-        >
-          {isMusicPlaying ? <Pause size={24} /> : <Music size={24} />}
-        </button>
-      </div>
-
-      <div className="fixed bottom-6 left-6 flex gap-4 z-[200]">
-        <button
-          onClick={() => handleExport('charts-section', 'trinity-gewicht-chart')}
-          className="flex items-center gap-2 bg-white dark:bg-[#1a241a] text-accent dark:text-gold px-4 py-2 rounded-full border-2 border-accent dark:border-gold shadow-xl hover:bg-accent hover:text-white transition-all text-sm font-display"
-        >
-          <ChartBar size={18} /> Chart
-        </button>
-        <button
-          onClick={() => handleExport('family-tree-section', 'trinity-stammbaum')}
-          className="flex items-center gap-2 bg-white dark:bg-[#1a241a] text-accent dark:text-gold px-4 py-2 rounded-full border-2 border-accent dark:border-gold shadow-xl hover:bg-accent hover:text-white transition-all text-sm font-display"
-        >
-          <TreePine size={18} /> Baum
-        </button>
-        <button
-          onClick={() => handleExport('main-content', 'trinity-scrapbook-page')}
-          className="flex items-center gap-2 bg-white dark:bg-[#1a241a] text-accent dark:text-gold px-4 py-2 rounded-full border-2 border-accent dark:border-gold shadow-xl hover:bg-accent hover:text-white transition-all text-sm font-display"
-        >
-          <Camera size={18} /> Seite
-        </button>
-      </div>
     </div>
   );
 }
